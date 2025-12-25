@@ -2,31 +2,33 @@ site_name: Encrypted Team Docs
 theme:
   name: material
 
-# 1. Define the Plugins
 plugins:
   - search
   
-  # A. Encryption Plugin
-  - encrypt-content:
-      title: "Protected Documentation"
-      password: !ENV [DOCS_PASSWORD] # We will set this in the GitHub Action
+  # CORRECT CONFIGURATION FOR ENCRYPTCONTENT V3+
+  - encryptcontent:
+      # 1. Use 'global_password' for the site-wide password
+      # 2. Use '!ENV' tag to pull from the environment variable
+      global_password: !ENV DOCS_PASSWORD
+      
+      # 3. Customization (Optional)
+      title_prefix: "[Protected] "
+      summary: "Please enter the password to access the team documentation."
+      
+      # 4. Search configuration (Recommended for Material theme)
+      search_index: "dynamically" 
 
-  # B. Multirepo Plugin
   - multirepo:
       cleanup: true 
 
-  # C. Mkdocstrings (Connecting the code)
   - mkdocstrings:
       default_handler: python
       handlers:
         python:
-          # IMPORTANT: We will clone the secondary repo into this folder name
           paths: ["child_repos/repo_a/src"]
           options:
             docstring_style: google
 
-# 2. Define Navigation
 nav:
   - Home: index.md
-  # Import the secondary repo (Change URL to your actual secondary repo URL)
   - Calculator Module: '!import https://github.com/captainvoldemort/mkdocs-cloudflare-host-trial-1?branch=main'
