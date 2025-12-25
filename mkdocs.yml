@@ -5,17 +5,9 @@ theme:
 plugins:
   - search
   
-  # CORRECT CONFIGURATION FOR ENCRYPTCONTENT V3+
   - encryptcontent:
-      # 1. Use 'global_password' for the site-wide password
-      # 2. Use '!ENV' tag to pull from the environment variable
       global_password: !ENV DOCS_PASSWORD
-      
-      # 3. Customization (Optional)
-      title_prefix: "[Protected] "
       summary: "Please enter the password to access the team documentation."
-      
-      # 4. Search configuration (Recommended for Material theme)
       search_index: "dynamically" 
 
   - multirepo:
