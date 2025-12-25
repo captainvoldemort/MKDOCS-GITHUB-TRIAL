@@ -8,6 +8,7 @@ plugins:
   - encryptcontent:
       global_password: !ENV DOCS_PASSWORD
       summary: "Please enter the password to access the team documentation."
+      title_prefix: ""
       search_index: "dynamically" 
 
   - multirepo:
