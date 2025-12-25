@@ -11,7 +11,8 @@ plugins:
       title_prefix: ""
       search_index: "dynamically" 
       encryption_info_message: "Contact our team to get access."
-
+      password_button: true
+      password_button_text: "ENTER"
   - multirepo:
       cleanup: true 
 
