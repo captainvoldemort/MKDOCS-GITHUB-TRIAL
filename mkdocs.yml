@@ -1,0 +1,25 @@
+site_name: Main Documentation
+theme:
+  name: material
+
+plugins:
+  - search
+  # 1. Multirepo handles the Markdown/Docs
+  - multirepo:
+      cleanup: true 
+  # 2. Mkdocstrings reads the Python code from the local clone
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          # Point to the cloned folder's src directory
+          paths: ["child_code/src"]
+          options:
+            docstring_style: google
+  - encryptcontent:
+      global_password: "pass@1234"
+
+nav:
+  - Home: index.md
+  # We still use multirepo to pull the Markdown files for navigation
+  - trial_repo: '!import https://github.com/captainvoldemort/mkdocs-cloudflare-host-trial-1?branch=main'
