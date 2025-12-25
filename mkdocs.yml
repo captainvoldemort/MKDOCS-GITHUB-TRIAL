@@ -1,25 +1,32 @@
-site_name: Main Documentation
+site_name: Encrypted Team Docs
 theme:
   name: material
 
+# 1. Define the Plugins
 plugins:
   - search
-  # 1. Multirepo handles the Markdown/Docs
+  
+  # A. Encryption Plugin
+  - encrypt-content:
+      title: "Protected Documentation"
+      password: !ENV [DOCS_PASSWORD] # We will set this in the GitHub Action
+
+  # B. Multirepo Plugin
   - multirepo:
       cleanup: true 
-  # 2. Mkdocstrings reads the Python code from the local clone
+
+  # C. Mkdocstrings (Connecting the code)
   - mkdocstrings:
       default_handler: python
       handlers:
         python:
-          # Point to the cloned folder's src directory
-          paths: ["child_code/src"]
+          # IMPORTANT: We will clone the secondary repo into this folder name
+          paths: ["child_repos/repo_a/src"]
           options:
             docstring_style: google
-  - encryptcontent:
-      global_password: "pass@1234"
 
+# 2. Define Navigation
 nav:
   - Home: index.md
-  # We still use multirepo to pull the Markdown files for navigation
-  - trial_repo: '!import https://github.com/captainvoldemort/mkdocs-cloudflare-host-trial-1?branch=main'
+  # Import the secondary repo (Change URL to your actual secondary repo URL)
+  - Calculator Module: '!import https://github.com/captainvoldemort/mkdocs-cloudflare-host-trial-1?branch=main'
