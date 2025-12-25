@@ -7,9 +7,10 @@ plugins:
   
   - encryptcontent:
       global_password: !ENV DOCS_PASSWORD
-      summary: "Please enter the password to access the team documentation."
+      summary: "Please enter the password to access the documentation."
       title_prefix: ""
       search_index: "dynamically" 
+      encryption_info_message: "Contact our team to get access."
 
   - multirepo:
       cleanup: true 
