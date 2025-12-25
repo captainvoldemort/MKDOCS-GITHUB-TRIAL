@@ -2,4 +2,4 @@ mkdocs
 mkdocs-material
 mkdocs-multirepo-plugin
 mkdocstrings[python]
-mkdocs-encrypt-content
+mkdocs-encryptcontent-plugin
