@@ -1,0 +1,40 @@
+name: Deploy Protected Docs
+
+on:
+  push:
+    branches:
+      - main
+  # Allow the secondary repo to trigger a rebuild
+  repository_dispatch:
+    types: [rebuild-docs]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required to publish to gh-pages
+
+    steps:
+      - name: Checkout Main Repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Clone Secondary Repo (The "Clone & Point" Strategy)
+        # We manually clone the private repo into the folder expected by mkdocs.yml
+        # Note: We use the secret GH_PAT for access
+        run: |
+          mkdir -p child_repos
+          git clone --depth 1 https://${{ secrets.GH_PAT }}@github.com/captainvoldemort/mkdocs-cloudflare-host-trial-1.git child_repos/repo_a
+
+      - name: Deploy to GitHub Pages
+        env:
+          # Pass the secrets to the environment so MkDocs can see them
+          DOCS_PASSWORD: ${{ secrets.DOCS_PASSWORD }}
+        run: mkdocs gh-deploy --force
